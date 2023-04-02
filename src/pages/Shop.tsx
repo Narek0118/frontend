@@ -1,16 +1,16 @@
-import { useContext, useEffect, useState } from "react";
-import { observer } from "mobx-react-lite";
+import { useEffect, useState } from "react";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
-// import { Context } from "..";
+import { useSelector } from "react-redux";
 import { BrandBar } from "../components/brandBar/BrandBar";
 import { DeviceList } from "../components/deviceList/DeviceList";
 import { TypeBar } from "../components/typeBar/TypeBar";
-import { fetchTypes, fetchBrands, fetchDevices } from "../http/deviceApi";
+import { fetchDevices } from "../http/deviceApi";
 
-const Shop = observer(() => {
-  // const { user } = useContext(Context);
+const Shop = () => {
+  const state = useSelector((state: any) => state);
+  console.log("store", state);
   const [devices, setDevices] = useState<any[]>([]);
 
   useEffect(() => {
@@ -32,6 +32,6 @@ const Shop = observer(() => {
       </Row>
     </Container>
   );
-});
+};
 
 export default Shop;

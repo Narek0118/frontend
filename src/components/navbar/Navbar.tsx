@@ -7,7 +7,6 @@ import Button from "react-bootstrap/esm/Button";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import jwtDecode from "jwt-decode";
-// import { Context } from "../..";
 import {
   ADMIN_ROUTE,
   BASKET_ROUTE,
@@ -18,17 +17,21 @@ import {
 import { StringDecoder } from "string_decoder";
 import { Menu } from "antd";
 import { HomeFilled, ShoppingCartOutlined } from "@ant-design/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { LOG_OUT } from "../../store/actionTypes";
 
-export const Header = observer(() => {
-  // const { user } = useContext(Context);
+export const Header = () => {
   const history = useHistory();
   const token = localStorage.getItem("token");
   let admin: { role?: string } = {};
   if (token) admin = jwtDecode(token);
+  const state = useSelector((state: any) => state);
+  const dispatch = useDispatch();
 
   const logout = () => {
     localStorage.removeItem("token");
     history.push(LOGIN_ROUTE);
+    dispatch({ type: LOG_OUT });
     window.location.href = LOGIN_ROUTE;
   };
 
@@ -59,12 +62,9 @@ export const Header = observer(() => {
     <header>
       <Menu mode="horizontal">
         <Menu.Item key="home">
-          <Link to="/">Home</Link>
+          <Link to={SHOP_ROUTE}>Store</Link>
         </Menu.Item>
-        <Menu.Item key="shop">
-          <Link to={SHOP_ROUTE}>Shop</Link>
-        </Menu.Item>
-        {!admin?.role ? (
+        {!state.user ? (
           <Menu.Item key="auth">
             <Link to={LOGIN_ROUTE}>Authorization</Link>
           </Menu.Item>
@@ -78,7 +78,7 @@ export const Header = observer(() => {
                 <ShoppingCartOutlined />
               </Link>
             </Menu.Item>
-            {admin?.role === "ADMIN" && (
+            {state.user?.role === "ADMIN" && (
               <Menu.Item key="admin">
                 <Link to={ADMIN_ROUTE}>Admin panel</Link>
               </Menu.Item>
@@ -93,4 +93,4 @@ export const Header = observer(() => {
       </Menu>
     </header>
   );
-});
+};

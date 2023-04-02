@@ -1,57 +1,44 @@
-import { useContext, useEffect, useState } from "react";
-import { observer } from "mobx-react-lite";
+import { useEffect, useState } from "react";
+import { NavLink, useLocation, useHistory } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/esm/Button";
-import { NavLink, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { registration, login } from "../http/userApi";
 import {
-  ADMIN_ROUTE,
   LOGIN_ROUTE,
   REGISTRATION_ROUTE,
   SHOP_ROUTE,
 } from "../utils/constants";
-// import { Context } from "..";
-import { useHistory } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import { LOG_IN } from "../store/actionTypes";
 
-const Auth = observer(() => {
-  // const { user } = useContext(Context);
+const Auth = () => {
   const location = useLocation();
   const isLogin = location.pathname === LOGIN_ROUTE;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    let admin: { role?: string } = {};
-    let isAuth: boolean = false;
-    if (token) {
-      admin = jwtDecode(token);
-      isAuth = admin?.role === "ADMIN";
-    }
-    if (isAuth) {
-      history.push(ADMIN_ROUTE);
+    if (state.user) {
+      history.push(SHOP_ROUTE);
     }
   }, []);
 
   const click = async () => {
     try {
-      let data;
       if (isLogin) {
-        data = await login(email, password);
+        await login(email, password);
+        dispatch({ type: LOG_IN });
         history.push(SHOP_ROUTE);
       } else {
-        data = await registration(email, password);
+        await registration(email, password);
         history.push(SHOP_ROUTE);
       }
-      // user.setUser(user);
-      // user.setIsAuth(true);
       history.push(SHOP_ROUTE);
     } catch (e: any) {
       console.log(e);
-
-      // alert(e.response.data.message);
     }
   };
 
@@ -96,6 +83,6 @@ const Auth = observer(() => {
       </Form>
     </div>
   );
-});
+};
 
 export default Auth;
