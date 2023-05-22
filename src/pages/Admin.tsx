@@ -1,19 +1,16 @@
+import { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import { CreateBrand } from "../components/modals/CreateBrand";
 import { CreateType } from "../components/modals/CreateType";
 import { CreateDevice } from "../components/modals/CreateDevice";
-import { useEffect, useState } from "react";
-import { useContext } from "react";
-// import { Context } from "..";
 import { useHistory } from "react-router-dom";
-import { LOGIN_ROUTE, SHOP_ROUTE } from "../utils/constants";
+import { SHOP_ROUTE } from "../utils/constants";
 import jwtDecode from "jwt-decode";
 
 function Admin() {
   const [brandVisible, setBrandVisible] = useState(false);
   const [typeVisible, setTypeVisible] = useState(false);
   const [deviceVisible, setDeviceVisible] = useState(false);
-  // const { user } = useContext(Context);
   const history = useHistory();
   const token = localStorage.getItem("token");
   let user: { role?: string; id?: number } = {};

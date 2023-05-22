@@ -52,7 +52,6 @@ export default function Basket() {
       fetchOneBasket(user.id).then((data: any) => {
         setBasket(data);
         let total: number = 0;
-        console.log("data", data);
         data.map((datum: any) => {
           total += datum.quantity * datum.device.price;
         });

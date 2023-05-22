@@ -1,17 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-// import Button from "react-bootstrap/Button";
-import { Col, Dropdown, Row } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Col, Dropdown } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-// import { Context } from "../..";
 import { PropsType } from "./type";
 import { createDevice, fetchBrands, fetchTypes } from "../../http/deviceApi";
-import { Form } from "antd";
-import Input from "antd/es/input";
 import Button from "antd/es/button";
-import axios from "axios";
 
 export const CreateDevice = ({ show, onHide }: PropsType) => {
-  // const { user } = useContext(Context);
   const [brand, setBrand] = useState<string>();
   const [type, setType] = useState<string>();
   const [brands, setBrands] = useState<any>([]);
@@ -19,19 +13,12 @@ export const CreateDevice = ({ show, onHide }: PropsType) => {
   const [selectedFile, setSelectedFile] = useState("");
 
   useEffect(() => {
-    fetchBrands().then(data => setBrands(data));
-    fetchTypes().then(data => setTypes(data));
-  }, []);
+    fetchBrands().then((data) => setBrands(data));
+    fetchTypes().then((data) => setTypes(data));
+  },[show]);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-
-    const values: any = {
-      name: event.target[0].value,
-      price: event.target[1].value,
-      brandId: brand,
-      typeId: type,
-    };
 
     if (event.target[0].value && event.target[1].value && brand && type) {
       const formData = new FormData();

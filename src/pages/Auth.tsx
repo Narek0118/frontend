@@ -30,12 +30,12 @@ const Auth = () => {
     try {
       if (isLogin) {
         await login(email, password);
-        dispatch({ type: LOG_IN });
         history.push(SHOP_ROUTE);
       } else {
         await registration(email, password);
         history.push(SHOP_ROUTE);
       }
+      dispatch({ type: LOG_IN });
       history.push(SHOP_ROUTE);
     } catch (e: any) {
       console.log(e);

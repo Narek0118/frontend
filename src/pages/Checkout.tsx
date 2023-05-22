@@ -10,7 +10,6 @@ import {
   MDBCol,
   MDBTypography,
 } from "mdb-react-ui-kit";
-import axios from "axios";
 import { BASKET_ROUTE } from "../utils/constants";
 
 export default function Checkout() {
@@ -64,19 +63,23 @@ export default function Checkout() {
         deviceIds: deviceIds,
       }).then((res: any) => console.log(res));
     }
-    if (subtotal)
+    if (subtotal) {
       payment({
-        cartItems: { ...values, price: subtotal },
+        cartItems: { ...values, price: subtotal + 2000, userId: user.id, subtotal, deviceIds },
         userId: user.id,
       })
         .then((res) => {
           console.log(1111, res);
-          
+          if (res) {
+            // createOrder({ userId: user.id, subtotal, deviceIds });
+          }
+
           if (res?.url) {
             window.location.href = res.url;
           }
         })
         .catch((error) => console.error(error));
+    }
   };
 
   const onFinishFailed = (error: any) => {

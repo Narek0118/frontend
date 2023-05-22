@@ -12,7 +12,7 @@ const initialState = {
   user: getToken(),
 };
 
-export default function cartReducer(state = initialState, action: any) {
+export default function reducer(state = initialState, action: any) {
   switch (action.type) {
     case LOG_IN:
       return {

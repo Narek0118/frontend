@@ -77,7 +77,7 @@ const DevicePage = () => {
           <Image
             width={300}
             height={300}
-            src={`${process.env.REACT_APP_API_URL}/images/${device?.img}`}
+            src={process.env.REACT_APP_API_URL + "/uploads/" + device?.img}
           />
         </Col>
         <Col md={4}>
